@@ -1,0 +1,12 @@
+task: 
+  - name: Install aptitude
+    apt:
+      name: aptitude
+      state: latest
+      update_cache: true
+  - name: Install required system packages for Docker 🐳
+    apt:
+      pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl

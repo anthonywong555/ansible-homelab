@@ -1,0 +1,9 @@
+task:
+  - name: Git Clone Sentry
+    git:
+      repo: https://github.com/getsentry/self-hosted.git
+      dest: ~/services/sentry
+      clone: yes
+      version: "HEAD"
+  - name: Install Sentry
+    shell: cd ~/service/sentry && sudo ./install.sh --no-report-self-hosted-issues --skip-user-creation
