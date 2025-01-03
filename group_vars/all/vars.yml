@@ -1,0 +1,7 @@
+default_user: anthony
+home_directory: /home/anthony
+service_directory: /home/anthony/Services
+asdf_release: v0.15.0
+temporal_release: v1.26.2
+temporal_cli: temporal_cli.tar.gz
+sentry_release: 24.12.1

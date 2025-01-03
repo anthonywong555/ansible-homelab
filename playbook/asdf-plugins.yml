@@ -1,0 +1,20 @@
+---
+- hosts: all
+  remote_user: "{{ default_user }}"
+  
+  tasks:
+  - name: Adding NodeJS Plugin
+    shell: |
+      {{ home_directory }}/.asdf/bin/asdf plugin add nodejs
+  
+  - name: Install Go Plugin
+    shell: |
+      {{ home_directory }}/.asdf/bin/asdf plugin add golang
+  
+  - name: Install Python Plugin
+    shell: |
+      {{ home_directory }}/.asdf/bin/asdf plugin add python
+  
+  - name: Install Poetry Plugin
+    shell: |
+      {{ home_directory }}/.asdf/bin/asdf plugin add poetry

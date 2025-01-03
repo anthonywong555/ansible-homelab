@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: Update packages 📦
+    apt: 
+      update_cache: yes
+      upgrade: yes
+
+  - name: Install aptitude
+    apt:
+      name: aptitude
+      state: latest
+      update_cache: true
+
+  - name: Installing terminal essential packages
+    apt:
+      pkg:
+        - vim
+        - neovim
+        - tmux
+        - neofetch
+        - htop
+      state: latest
+      update_cache: true

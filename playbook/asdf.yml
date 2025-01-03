@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: ⏬ Downloading asdf Depenencies
+    apt:
+      pkg:
+        - curl
+        - git
+      state: latest
+      update_cache: true
+  - name: Downloading asdf
+    git:
+      repo: https://github.com/asdf-vm/asdf.git
+      dest: "{{ home_directory }}/.asdf"
+      version: "{{ asdf_release }}"
+      clone: yes
+  - name: Change owner asdf
+    file:
+      path: "{{ home_directory }}/.asdf"
+      state: directory
+      recurse: yes
+      owner: "{{ default_user }}"
+      group: "{{ default_user }}"
+
+  - name: Adding asdf to .bashrc  
+    shell: echo '. "{{ home_directory }}/.asdf/asdf.sh"' >> {{ home_directory }}/.bashrc
+  - name: Adding asdf completions to .bashrc
+    shell: echo '. "{{ home_directory }}/.asdf/completions/asdf.bash"' >> {{ home_directory }}/.bashrc
+
+  - name: ⏬ Downloading Go Plugin Dependencies 🌳
+    apt:
+      pkg:
+        - coreutils
+      state: latest
+      update_cache: true
+  
+  - name: ⏬ Downloading Python Plugin Dependencies 🐍
+    apt:
+      pkg:
+        - build-essential
+        - libssl-dev
+        - zlib1g-dev
+        - libbz2-dev
+        - libreadline-dev
+        - libsqlite3-dev
+        - curl
+        - git
+        - libncursesw5-dev
+        - xz-utils
+        - tk-dev
+        - libxml2-dev
+        - libxmlsec1-dev
+        - libffi-dev
+        - liblzma-dev
+      state: latest
+      update_cache: true

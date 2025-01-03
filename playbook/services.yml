@@ -1,0 +1,44 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: ⏬ Downloading Temporal Cli
+    ansible.builtin.get_url:
+      url: https://temporal.download/cli/archive/latest?platform=linux&arch=amd64
+      dest: "{{ home_directory }}/{{ temporal_cli }}"
+  - name: Unzipping the 📁
+    command:
+      chdir: "{{ home_directory }}"
+      cmd: tar -xvzf {{ temporal_cli }}
+  - name: Moving the executable
+    command:
+      chdir: "{{ home_directory }}"
+      cmd: mv temporal /usr/local/bin
+  - name: Cleaning up 🧹
+    command:
+      chdir: "{{ home_directory }}"
+      cmd: rm -rf {{ temporal_cli }}
+  - name: Making Services Folder 📂
+    command:
+      chdir: "{{ home_directory }}"
+      cmd: mkdir services
+  - name: 🔽 Downloading Temporal ⚛ Docker Compose 🐳
+    git:
+      repo: https://github.com/temporalio/docker-compose.git
+      dest: "{{ service_directory }}/temporalio"
+      version: "{{ temporal_release }}"
+      clone: yes
+  - name: 🔽 Downloading Sentry ☢ 
+    git:
+      repo: https://github.com/getsentry/sentry.git
+      dest: "{{ service_directory }}/sentry"
+      version: "{{ sentry_release }}"
+      clone: yes
+  - name: Change folder owner to target user
+    file:
+      path: "{{ service_directory }}"
+      state: directory
+      recurse: yes
+      owner: "{{ default_user }}"
+      group: "{{ default_user }}"
